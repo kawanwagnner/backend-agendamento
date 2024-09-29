@@ -4,6 +4,7 @@ const dotenv = require("dotenv");
 const connectDB = require("./database/db.js");
 const userRoutes = require("./routers/userRoutes");
 const scheduleRoutes = require("./routers/scheduleRoutes");
+const adminRoutes = require("./routers/adminRoutes");
 
 // Configuração do dotenv para variáveis de ambiente
 dotenv.config();
@@ -15,7 +16,7 @@ const PORT = process.env.PORT || 5000;
 connectDB();
 
 // Middlewares
-app.use(express.json()); // Habilitar parsing de JSON no corpo da requisição
+app.use(express.json());
 
 // Rota test
 app.use("/test", (req, res) => {
@@ -29,6 +30,7 @@ app.use("/test", (req, res) => {
 // Rotas
 app.use("/api/users", userRoutes); // Rotas de usuários (registro e login)
 app.use("/api/schedules", scheduleRoutes); // Rotas de agendamento (CRUD de agendamentos)
+app.use("/admin", adminRoutes);
 
 // Iniciar o servidor
 app.listen(PORT, () => {

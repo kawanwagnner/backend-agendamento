@@ -17,9 +17,16 @@ const scheduleSchema = new mongoose.Schema({
       "Lavar e Secar",
     ], // Serviços de barbearia
   },
+  barber: {
+    type: String,
+  },
   date: {
     type: Date,
     required: true,
+  },
+  blocked: {
+    type: Boolean,
+    default: false,
   },
   duration: {
     type: Number,

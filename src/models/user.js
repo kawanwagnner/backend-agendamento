@@ -24,6 +24,14 @@ const userSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+
+  // ADM
+  user: {
+    type: String,
+  },
+  pass: {
+    type: String,
+  },
 });
 
 // Hash da senha antes de salvar

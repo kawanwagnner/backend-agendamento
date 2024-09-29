@@ -3,7 +3,7 @@ const Schedule = require("../models/schedule");
 
 // Criar um novo agendamento
 exports.createSchedule = async (req, res) => {
-  const { service, date, duration } = req.body;
+  const { service, date, duration, barber } = req.body;
 
   // Lista de serviços de barbearia
   const validServices = [
@@ -14,10 +14,20 @@ exports.createSchedule = async (req, res) => {
     "Lavar e Secar",
   ];
 
+  // Lista de barbeiros disponíveis
+  const validBarbers = ["João Silva", "Pedro Santos", "Carlos Ferreira"];
+
   // Verifica se o serviço selecionado é válido
   if (!validServices.includes(service)) {
     return res.status(400).json({
       message: "Serviço inválido. Escolha um serviço de barbearia válido.",
+    });
+  }
+
+  // Verifica se o barbeiro selecionado é válido
+  if (!validBarbers.includes(barber)) {
+    return res.status(400).json({
+      message: "Barbeiro inválido. Escolha um barbeiro disponível.",
     });
   }
 
@@ -52,13 +62,14 @@ exports.createSchedule = async (req, res) => {
       });
     }
 
-    // Cria o novo agendamento
+    // Cria o novo agendamento com o barbeiro selecionado
     const schedule = new Schedule({
       user: req.user._id,
       service,
+      barber, // Adiciona o barbeiro selecionado
       date: selectedDate,
       duration,
-      status: "agendado", // Aqui setamos o status como "agendado" em português
+      status: "agendado", // Define o status como "agendado"
     });
 
     await schedule.save();
@@ -77,9 +88,10 @@ exports.createSchedule = async (req, res) => {
 // Listar agendamentos do usuário logado
 exports.getSchedules = async (req, res) => {
   try {
+    // Busca todos os agendamentos do usuário e ordena por data de forma decrescente
     const schedules = await Schedule.find({ user: req.user._id }).sort({
-      date: 1,
-    }); // Ordena por data futura
+      date: -1, // Ordena por data de forma decrescente (mais recente primeiro)
+    });
 
     // Verifica se a lista está vazia
     if (schedules.length === 0) {

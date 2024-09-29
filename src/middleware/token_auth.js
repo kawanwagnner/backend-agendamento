@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 
-const protect = async (req, res, next) => {
+const tokenAuth = async (req, res, next) => {
   let token;
 
   // Verifica se o token está presente no cabeçalho Authorization
@@ -10,18 +10,23 @@ const protect = async (req, res, next) => {
     req.headers.authorization.startsWith("Bearer")
   ) {
     try {
-      // Extrai o token e faz a verificação
+      // Extrai o token do cabeçalho
       token = req.headers.authorization.split(" ")[1];
 
-      // Decodifica o token
+      // Decodifica o token usando o segredo JWT
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-      // Encontra o usuário pelo ID decodificado, excluindo a senha
-      req.user = await User.findById(decoded.id).select("-password");
+      // Se o token contiver um `role: admin`, não é necessário buscar no banco de dados
+      if (decoded.role === "admin") {
+        req.user = { role: "admin" }; // Atribui o `role` diretamente
+      } else {
+        // Se não for um token de administrador, busca o usuário pelo ID
+        req.user = await User.findById(decoded.id).select("-password");
 
-      // Caso o usuário não seja encontrado
-      if (!req.user) {
-        return res.status(401).json({ message: "Usuário não encontrado." });
+        // Caso o usuário não seja encontrado
+        if (!req.user) {
+          return res.status(401).json({ message: "Usuário não encontrado." });
+        }
       }
 
       // Chama o próximo middleware se tudo estiver correto
@@ -32,14 +37,12 @@ const protect = async (req, res, next) => {
         .status(401)
         .json({ message: "Token inválido ou não autorizado" });
     }
-  }
-
-  // Se o token não for fornecido
-  if (!token) {
+  } else {
+    // Se o token não for fornecido no cabeçalho Authorization
     return res
       .status(401)
-      .json({ message: "Sem autorização, token não fornecido" });
+      .json({ message: "Sem autorização, token não fornecido." });
   }
 };
 
-module.exports = protect;
+module.exports = tokenAuth;

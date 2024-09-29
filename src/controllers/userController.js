@@ -24,24 +24,40 @@ exports.registerUser = async (req, res) => {
   }
 };
 
-// Login de usuário
+// Login de usuário e administrador
 exports.loginUser = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, user, pass } = req.body;
 
   try {
-    const user = await User.findOne({ email }).select("+password");
-    if (!user)
+    // Verificação se é login de administrador
+    if (user && pass) {
+      if (user === "adm" && pass === "adm@C0pany") {
+        const token = jwt.sign({ role: "admin" }, process.env.JWT_SECRET);
+
+        return res.status(200).json({
+          message: "Login de administrador bem-sucedido!",
+          token,
+          role: "admin",
+        });
+      } else {
+        return res.status(400).json({ message: "Credenciais inválidas" });
+      }
+    }
+
+    // Verificação de login de usuário comum
+    const usuario = await User.findOne({ email }).select("+password");
+    if (!usuario)
       return res.status(400).json({ message: "Credenciais inválidas" });
 
-    const isMatch = await user.comparePassword(password);
+    const isMatch = await usuario.comparePassword(password);
     if (!isMatch)
       return res.status(400).json({ message: "Credenciais inválidas" });
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
-    });
+    const token = jwt.sign({ id: usuario._id }, process.env.JWT_SECRET);
 
-    res.status(200).json({ message: "Login bem-sucedido!", user, token });
+    res
+      .status(200)
+      .json({ message: "Login de usuário bem-sucedido!", usuario, token });
   } catch (err) {
     res.status(500).json({ message: "Erro no servidor", error: err.message });
   }
