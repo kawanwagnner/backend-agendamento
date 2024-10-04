@@ -12,9 +12,7 @@ exports.registerUser = async (req, res) => {
 
     user = await User.create({ name, email, password });
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "10h",
-    });
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
 
     res
       .status(201)
@@ -31,7 +29,7 @@ exports.loginUser = async (req, res) => {
   try {
     // Verificação se é login de administrador
     if (user && pass) {
-      if (user === "adm" && pass === "adm@C0pany") {
+      if (user === "adm" && pass === "adm@C0mpany") {
         const token = jwt.sign({ role: "admin" }, process.env.JWT_SECRET);
 
         return res.status(200).json({
