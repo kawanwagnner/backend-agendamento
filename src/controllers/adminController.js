@@ -36,6 +36,24 @@ exports.getAllSchedules = async (req, res) => {
   }
 };
 
+// Ver um agendamento específico
+exports.getSingleSchedule = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const schedule = await Schedule.findById(id).populate(
+      "user",
+      "-password -user"
+    );
+    if (!schedule) {
+      return sendResponse(res, 404, null, "Agendamento não encontrado");
+    }
+    sendResponse(res, 200, schedule, "Agendamento encontrado com sucesso");
+  } catch (error) {
+    console.error(error);
+    sendResponse(res, 500, null, "Erro ao buscar agendamento");
+  }
+};
+
 // Atualizar um agendamento
 exports.updateSchedule = async (req, res) => {
   try {
@@ -92,7 +110,7 @@ exports.blockDay = async (req, res) => {
 exports.getAllUsers = async (req, res) => {
   try {
     const users = await User.find().sort({ createdAt: -1 }); // Mais recentes primeiro
-    sendResponse(res, 200, users, "Usuários recuperados com sucesso");
+    sendResponse(res, 200, users, "Usuários encontrados com sucesso");
   } catch (error) {
     console.error(error);
     sendResponse(res, 500, null, "Erro ao buscar usuários");
@@ -100,10 +118,10 @@ exports.getAllUsers = async (req, res) => {
 };
 
 // Ver um usuário específico
-exports.getUserById = async (req, res) => {
+exports.getSingleUser = async (req, res) => {
   try {
     const { id } = req.params;
-    const user = await User.findById(id);
+    const user = await User.findById(id).select("-password -__v"); // Exclui campos confidenciais
     if (!user) {
       return sendResponse(res, 404, null, "Usuário não encontrado");
     }

@@ -1,5 +1,6 @@
 // src/controllers/scheduleController.js
 const Schedule = require("../models/schedule");
+const { isValid, parseISO, format } = require("date-fns");
 
 // Criar um novo agendamento
 exports.createSchedule = async (req, res) => {
@@ -139,9 +140,16 @@ exports.updateSchedule = async (req, res) => {
         .json({ message: "Você só pode cancelar o agendamento." });
     }
 
-    // Atualiza a data se fornecida, mas verifica se o dia é o mesmo
+    // Valida e atualiza a data
     if (date) {
-      const newDate = new Date(date);
+      const newDate = parseISO(date); // Converte para o formato ISO 8601
+
+      if (!isValid(newDate)) {
+        return res.status(400).json({
+          message: "Formato de data inválido. Use um formato ISO 8601.",
+        });
+      }
+
       const originalDate = new Date(schedule.date);
 
       // Verifica se a data (ano, mês e dia) são os mesmos
@@ -158,7 +166,7 @@ exports.updateSchedule = async (req, res) => {
       }
 
       // Verifica se o novo horário não está no passado
-      if (newDate < new Date()) {
+      if (newDate.getTime() < Date.now()) {
         return res.status(400).json({
           message:
             "O horário escolhido já passou. Selecione um horário futuro.",
@@ -166,7 +174,7 @@ exports.updateSchedule = async (req, res) => {
       }
 
       // Atualiza o campo `date` com a nova hora
-      schedule.date = newDate;
+      schedule.date = newDate.toISOString(); // Salva no formato ISO 8601
     }
 
     // Atualiza o status se for para "Cancelado"
@@ -212,4 +220,4 @@ exports.deleteSchedule = async (req, res) => {
       error: err.message,
     });
   }
-};
+};  

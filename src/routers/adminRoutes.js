@@ -22,6 +22,9 @@ router.get("/test-admin", (req, res) => {
 // Ver todos os agendamentos
 router.get("/schedules", adminController.getAllSchedules);
 
+// Ver um agendamento específico
+router.get("/schedules/:id", adminController.getSingleSchedule);
+
 // Atualizar um agendamento
 router.put("/schedules/:id", adminController.updateSchedule);
 
@@ -34,16 +37,16 @@ router.post("/block-day", adminController.blockDay);
 ///////////////////////// Rotas de Usuários /////////////////////////
 
 // Ver todos os usuários
-router.get("/schedules", adminController.getAllUsers);
+router.get("/users", adminController.getAllUsers);
 
 // Ver um usuário específico
-router.get("/schedules/:id", adminController.getUserById);
+router.get("/users/:id", adminController.getSingleUser);
 
 // Atualizar um usuário
-router.put("/schedules/:id", adminController.updateUser);
+router.put("/users/:id", adminController.updateUser);
 
 // Deletar um usuário
-router.delete("/schedules/:id", adminController.deleteUser);
+router.delete("/users/:id", adminController.deleteUser);
 
 ///////////////////////// Exportação do Router /////////////////////////
 
