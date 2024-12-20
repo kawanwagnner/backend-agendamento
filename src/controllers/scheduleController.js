@@ -1,10 +1,10 @@
-// src/controllers/scheduleController.js
 const Schedule = require("../models/schedule");
-const { isValid, parseISO, format } = require("date-fns");
+const { isValid, parse, format } = require("date-fns");
+const { ptBR } = require("date-fns/locale");
 
 // Criar um novo agendamento
 exports.createSchedule = async (req, res) => {
-  const { service, date, duration, barber } = req.body;
+  const { service, date, time, duration, barber } = req.body;
 
   // Lista de serviços de barbearia
   const validServices = [
@@ -32,19 +32,40 @@ exports.createSchedule = async (req, res) => {
     });
   }
 
-  // Validação adicional para a data
-  const selectedDate = new Date(date);
-
-  // Verifica se a data passada é inválida ou no passado
-  if (isNaN(selectedDate.getTime())) {
+  // Validação adicional para a data e hora
+  if (!date || !time) {
     return res.status(400).json({
-      message: "Formato de data inválido. Use um formato ISO 8601.",
+      message: "Data e hora são obrigatórios.",
     });
   }
 
-  if (selectedDate < new Date()) {
+  // Converte a data do formato dd/MM/yyyy para um objeto Date
+  const parsedDate = parse(date, "dd/MM/yyyy", new Date(), { locale: ptBR });
+
+  if (!isValid(parsedDate)) {
     return res.status(400).json({
-      message: "A data escolhida já passou. Selecione uma data futura.",
+      message: "Formato de data inválido. Use o formato dd/MM/yyyy.",
+    });
+  }
+
+  // Combina data e hora para criar o objeto Date completo
+  const dateTimeString = `${format(parsedDate, "yyyy-MM-dd")}T${time}:00`;
+  const selectedDate = new Date(`${dateTimeString}-03:00`); // Adiciona o offset do horário de Brasília
+
+  // Normaliza a data atual no fuso horário local
+  const now = new Date();
+  const nowWithoutSeconds = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate(),
+    now.getHours(),
+    now.getMinutes()
+  );
+
+  if (selectedDate < nowWithoutSeconds) {
+    return res.status(400).json({
+      message:
+        "A data e hora escolhidas já passaram. Selecione uma data futura.",
     });
   }
 
@@ -67,7 +88,7 @@ exports.createSchedule = async (req, res) => {
     const schedule = new Schedule({
       user: req.user._id,
       service,
-      barber, // Adiciona o barbeiro selecionado
+      barber,
       date: selectedDate,
       duration,
       status: "agendado", // Define o status como "agendado"
@@ -112,7 +133,7 @@ exports.getSchedules = async (req, res) => {
 
 // Atualizar um agendamento existente
 exports.updateSchedule = async (req, res) => {
-  const { date, status } = req.body;
+  const { date, time, status } = req.body;
 
   try {
     const schedule = await Schedule.findById(req.params.id);
@@ -140,32 +161,20 @@ exports.updateSchedule = async (req, res) => {
         .json({ message: "Você só pode cancelar o agendamento." });
     }
 
-    // Valida e atualiza a data
-    if (date) {
-      const newDate = parseISO(date); // Converte para o formato ISO 8601
-
-      if (!isValid(newDate)) {
+    // Valida e atualiza a data e hora
+    if (date && time) {
+      const parsedDate = parse(date, "dd/MM/yyyy", new Date(), {
+        locale: ptBR,
+      });
+      if (!isValid(parsedDate)) {
         return res.status(400).json({
-          message: "Formato de data inválido. Use um formato ISO 8601.",
+          message: "Formato de data inválido. Use o formato dd/MM/yyyy.",
         });
       }
 
-      const originalDate = new Date(schedule.date);
+      const dateTimeString = `${format(parsedDate, "yyyy-MM-dd")}T${time}:00`;
+      const newDate = new Date(`${dateTimeString}-03:00`); // Adiciona o offset do horário de Brasília
 
-      // Verifica se a data (ano, mês e dia) são os mesmos
-      const isSameDay =
-        newDate.getFullYear() === originalDate.getFullYear() &&
-        newDate.getMonth() === originalDate.getMonth() &&
-        newDate.getDate() === originalDate.getDate();
-
-      if (!isSameDay) {
-        return res.status(400).json({
-          message:
-            "Você só pode alterar o horário, o dia deve permanecer o mesmo.",
-        });
-      }
-
-      // Verifica se o novo horário não está no passado
       if (newDate.getTime() < Date.now()) {
         return res.status(400).json({
           message:
@@ -173,8 +182,7 @@ exports.updateSchedule = async (req, res) => {
         });
       }
 
-      // Atualiza o campo `date` com a nova hora
-      schedule.date = newDate.toISOString(); // Salva no formato ISO 8601
+      schedule.date = newDate; // Atualiza a data e hora
     }
 
     // Atualiza o status se for para "Cancelado"
@@ -220,4 +228,4 @@ exports.deleteSchedule = async (req, res) => {
       error: err.message,
     });
   }
-};  
+};

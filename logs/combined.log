@@ -1,0 +1,63 @@
+2024-12-20 13:43:51 [[32minfo[39m]: Admin autenticado com token válido.
+2024-12-20 13:43:58 [[32minfo[39m]: Admin autenticado com token válido.
+2024-12-20 13:44:18 [[32minfo[39m]: Admin autenticado com token válido.
+2024-12-20 13:47:04 [[32minfo[39m]: Usuário autenticado: 67643264f55111726107337e
+2024-12-20 13:50:38 [[32minfo[39m]: Usuário autenticado: 67643264f55111726107337e
+2024-12-20 14:09:13 [[33mwarn[39m]: Usuário não encontrado para o ID: 66f79edae0a093f8ba8fd6cb
+2024-12-20 14:09:28 [[32minfo[39m]: Usuário autenticado: 67643264f55111726107337e
+2024-12-20 14:09:45 [[32minfo[39m]: Usuário autenticado: 67643264f55111726107337e
+2024-12-20 14:10:00 [[32minfo[39m]: Usuário autenticado: 67643264f55111726107337e
+2024-12-20 14:10:09 [[32minfo[39m]: Usuário autenticado: 67643264f55111726107337e
+2024-12-20 14:10:19 [[32minfo[39m]: Usuário autenticado: 67643264f55111726107337e
+2024-12-20 14:15:45 [[32minfo[39m]: Usuário autenticado: 67643264f55111726107337e
+2024-12-20 14:18:07 [[32minfo[39m]: Usuário autenticado: 67643264f55111726107337e
+2024-12-20 14:18:12 [[32minfo[39m]: Usuário autenticado: 67643264f55111726107337e
+2024-12-20 14:18:19 [[32minfo[39m]: Usuário autenticado: 67643264f55111726107337e
+2024-12-20 14:22:48 [[32minfo[39m]: Usuário autenticado: 67643264f55111726107337e
+2024-12-20 14:27:33 [[32minfo[39m]: Usuário autenticado: 67643264f55111726107337e
+2024-12-20 14:27:52 [[32minfo[39m]: Usuário autenticado: 67643264f55111726107337e
+2024-12-20 14:28:05 [[32minfo[39m]: Usuário autenticado: 67643264f55111726107337e
+2024-12-20 14:28:10 [[32minfo[39m]: Usuário autenticado: 67643264f55111726107337e
+2024-12-20 14:29:01 [[32minfo[39m]: Usuário autenticado: 67643264f55111726107337e
+2024-12-20 14:29:09 [[32minfo[39m]: Usuário autenticado: 67643264f55111726107337e
+2024-12-20 15:58:35 [[32minfo[39m]: Admin autenticado com token válido.
+2024-12-20 16:04:22 [[32minfo[39m]: Usuário autenticado: 67643264f55111726107337e
+2024-12-20 16:32:26 [[32minfo[39m]: Admin autenticado com token válido.
+2024-12-20 16:33:03 [[32minfo[39m]: Usuário autenticado: 67643264f55111726107337e
+2024-12-20 16:45:27 [[32minfo[39m]: Admin autenticado com token válido.
+2024-12-20 16:45:43 [[31merror[39m]: Erro de autenticação: jwt expired
+2024-12-20 16:46:08 [[32minfo[39m]: Usuário autenticado: 67643264f55111726107337e
+2024-12-20 16:46:36 [[32minfo[39m]: Usuário autenticado: 67643264f55111726107337e
+2024-12-20 16:47:32 [[32minfo[39m]: Usuário autenticado: 67643264f55111726107337e
+2024-12-20 16:47:53 [[32minfo[39m]: Usuário autenticado: 67643264f55111726107337e
+2024-12-20 16:54:25 [[32minfo[39m]: Usuário autenticado: 67643264f55111726107337e
+2024-12-20 16:54:32 [[32minfo[39m]: Admin autenticado com token válido.
+2024-12-20 16:54:40 [[32minfo[39m]: Admin autenticado com token válido.
+2024-12-20 16:58:31 [[32minfo[39m]: Admin autenticado com token válido.
+2024-12-20 16:58:42 [[32minfo[39m]: Usuário autenticado: 67643264f55111726107337e
+2024-12-20 16:58:57 [[31merror[39m]: Erro de autenticação: jwt expired
+2024-12-20 16:59:23 [[32minfo[39m]: Usuário autenticado: 67643264f55111726107337e
+2024-12-20 17:01:09 [[32minfo[39m]: Admin autenticado com token válido.
+2024-12-20 17:01:29 [[32minfo[39m]: Usuário autenticado: 67643264f55111726107337e
+2024-12-20 17:06:56 [[32minfo[39m]: Admin autenticado com token válido.
+2024-12-20 17:11:29 [[33mwarn[39m]: Tentativa de acesso sem token.
+2024-12-20 17:11:31 [[33mwarn[39m]: Tentativa de acesso sem token.
+2024-12-20 17:11:57 [[33mwarn[39m]: Tentativa de acesso sem token.
+2024-12-20 17:11:58 [[33mwarn[39m]: Tentativa de acesso sem token.
+2024-12-20 17:14:48 [[33mwarn[39m]: Tentativa de acesso sem token.
+2024-12-20 17:19:48 [[33mwarn[39m]: Tentativa de acesso sem token.
+2024-12-20 17:19:50 [[33mwarn[39m]: Tentativa de acesso sem token.
+2024-12-20 17:21:03 [[32minfo[39m]: Usuário autenticado: 67643264f55111726107337e
+2024-12-20 17:21:05 [[32minfo[39m]: Usuário autenticado: 67643264f55111726107337e
+2024-12-20 17:21:18 [[32minfo[39m]: Usuário autenticado: 67643264f55111726107337e
+2024-12-20 17:21:20 [[32minfo[39m]: Usuário autenticado: 67643264f55111726107337e
+2024-12-20 17:26:40 [[32minfo[39m]: Usuário autenticado: 67643264f55111726107337e
+2024-12-20 17:26:42 [[32minfo[39m]: Usuário autenticado: 67643264f55111726107337e
+2024-12-20 17:26:48 [[32minfo[39m]: Usuário autenticado: 67643264f55111726107337e
+2024-12-20 17:26:52 [[32minfo[39m]: Usuário autenticado: 67643264f55111726107337e
+2024-12-20 17:28:37 [[33mwarn[39m]: Tentativa de acesso sem token.
+2024-12-20 17:30:36 [[32minfo[39m]: Usuário autenticado: 67643264f55111726107337e
+2024-12-20 17:30:39 [[32minfo[39m]: Usuário autenticado: 67643264f55111726107337e
+2024-12-20 17:33:58 [[32minfo[39m]: Usuário autenticado: 67643264f55111726107337e
+2024-12-20 17:34:04 [[32minfo[39m]: Usuário autenticado: 67643264f55111726107337e
+2024-12-20 17:34:07 [[32minfo[39m]: Usuário autenticado: 67643264f55111726107337e
